@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<genres>
+    <genre>
+        <id>1</id>
+         <name>classic</name>
+    </genre>
+    <genre>
+        <id>2</id>
+         <name>rock</name>
+    </genre>
+    <genre>
+        <id>3</id>
+         <name>pop</name>
+    </genre>
+    <genre>
+        <id>4</id>
+         <name>jaz</name>
+    </genre>
+    <genre>
+        <id>5</id>
+         <name>rap</name>
+    </genre>
+    <genre>
+        <id>6</id>
+         <name>folk</name>
+    </genre>
+</genres>

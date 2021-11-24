@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<relationships>
+    <relationship>
+        <playlistId>1</playlistId>
+        <songId>1</songId>
+    </relationship>
+    <relationship>
+        <playlistId>1</playlistId>
+        <songId>2</songId>
+    </relationship>
+    <relationship>
+        <playlistId>1</playlistId>
+        <songId>3</songId>
+    </relationship>
+    <relationship>
+        <playlistId>2</playlistId>
+        <songId>5</songId>
+    </relationship>
+    <relationship>
+        <playlistId>2</playlistId>
+        <songId>20</songId>
+    </relationship>
+</relationships>

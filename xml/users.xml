@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<users>
+    <user>
+        <id>1</id>
+        <name>Sergei</name>
+        <password>wefw353412fds</password>
+        <role>2</role>
+    </user>
+    <user>
+        <id>2</id>
+        <name>Alexander</name>
+        <password>wedsf353412ds</password>
+        <role>1</role>
+    </user>
+    <user>
+        <id>3</id>
+        <name>Max</name>
+        <password>wefw353499wws</password>
+        <role>1</role>
+    </user>
+</users>
