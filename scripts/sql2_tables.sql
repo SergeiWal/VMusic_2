@@ -18,7 +18,7 @@ create table author
 create table song
 (
     id number,
-    song nvarchar2(30),
+    name nvarchar2(30),
     source nvarchar2(120),
     author number not null,
     genre number not null,
@@ -26,6 +26,7 @@ create table song
     constraint fk_song_author foreign key(author) references author(id),
     constraint fk_song_genre foreign key (genre) references genre(id)
 );
+--alter table song rename column song to name;
 
 create table user_role
 (
