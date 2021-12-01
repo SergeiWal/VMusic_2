@@ -120,6 +120,9 @@ end;
 create or replace procedure delete_user
     (user_id in number, procedure_result out boolean) IS
 BEGIN
+    delete from PLAYLIST_SONGS where PLAYLIST_ID in
+                                     (select ID from PLAYLIST
+                                        where OWNER = user_id);
     delete from PLAYLIST where OWNER=user_id;
     delete from VMUSIC_USER where ID=user_id;
     procedure_result:=true;

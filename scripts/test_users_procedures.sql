@@ -53,12 +53,17 @@ end;
 select * from SONG;
 declare
     result_set sys_refcursor;
-    song_row SONG%rowtype;
+    s_id SONG.ID%TYPE;
+    s_name SONG.NAME%TYPE;
+    s_author AUTHOR.NAME%TYPE;
+    s_genre GENRE.GENRE%TYPE;
+    s_source SONG.SOURCE%TYPE;
 begin
     GET_SONGS( result_set);
     loop
-        fetch result_set into song_row;
+        fetch result_set
+            into s_id,s_name,s_author,s_genre,s_source;
         exit when result_set%notfound;
-        DBMS_OUTPUT.PUT_LINE(song_row.ID || ' ' || song_row.NAME || ' ' || song_row.GENRE );
+        DBMS_OUTPUT.PUT_LINE(s_name || ' ' || s_author || ' ' || s_genre );
     end loop;
 end;
