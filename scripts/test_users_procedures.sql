@@ -50,14 +50,14 @@ begin
 end;
 
 --get_songs
-select * from SONG;
+--select * from SONG;
 declare
     result_set sys_refcursor;
-    s_id SONG.ID%TYPE;
-    s_name SONG.NAME%TYPE;
-    s_author AUTHOR.NAME%TYPE;
-    s_genre GENRE.GENRE%TYPE;
-    s_source SONG.SOURCE%TYPE;
+    s_id number;
+    s_name nvarchar2(50);
+    s_author nvarchar2(50);
+    s_genre nvarchar2(50);
+    s_source nvarchar2(300);
 begin
     GET_SONGS( result_set);
     loop
@@ -66,4 +66,16 @@ begin
         exit when result_set%notfound;
         DBMS_OUTPUT.PUT_LINE(s_name || ' ' || s_author || ' ' || s_genre );
     end loop;
+end;
+
+declare
+    result boolean;
+begin
+    DB_ADMIN.ADD_SONG('Moon Sonate', 'E:\\GIT\\Fur_Elise_Ludwig_Van_Beethoven.mp3',1,1,result);
+end;
+
+declare
+    result boolean;
+begin
+    DB_ADMIN.DELETE_SONG(41, result);
 end;

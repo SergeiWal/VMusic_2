@@ -7,7 +7,7 @@ end;
 
 create or replace procedure add_song
     (in_name in nvarchar2, in_source in nvarchar2, in_author in number,
-     in_genre in number ,procedure_result out boolean) is
+     in_genre in number ,procedure_result out number) is
     is_song number := 0;
     song_id number;
 begin
@@ -19,94 +19,94 @@ begin
     insert into SONG (ID, NAME, SOURCE, AUTHOR, GENRE)
         values (song_id, in_name, in_source, in_author, in_genre);
     end if;
-    procedure_result:=true;
+    procedure_result:=song_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 create or replace procedure delete_song
-    (s_id in number,  procedure_result out boolean) is
+    (s_id in number, procedure_result out number) is
 begin
     delete from PLAYLIST_SONGS where SONG_ID = s_id;
     delete  from SONG where ID = s_id;
-    procedure_result:=true;
+    procedure_result:=1;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= 0;
     rollback;
 end;
 
 create or replace procedure update_song_name
-    (s_id in number, new_name in nvarchar2,  procedure_result out boolean) is
+    (s_id in number, new_name in nvarchar2,  procedure_result out number) is
 begin
     update SONG set NAME=new_name
         where ID=s_id;
-    procedure_result:=true;
+    procedure_result:=s_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 create or replace procedure update_song_source
-    (s_id in number, new_source in nvarchar2,  procedure_result out boolean) is
+    (s_id in number, new_source in nvarchar2,  procedure_result out number) is
 begin
     update SONG set SOURCE=new_source
         where ID=s_id;
-    procedure_result:=true;
+    procedure_result:=s_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 create or replace procedure update_song_genre
-    (s_id in number, new_genre in number,  procedure_result out boolean) is
+    (s_id in number, new_genre in number,  procedure_result out number) is
 begin
     update SONG set GENRE=new_genre
         where ID=s_id;
-    procedure_result:=true;
+    procedure_result:=s_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 create or replace procedure update_song_author
-    (s_id in number, new_author in number,  procedure_result out boolean) is
+    (s_id in number, new_author in number,  procedure_result out number) is
 begin
     update SONG set AUTHOR=new_author
         where ID=s_id;
-    procedure_result:=true;
+    procedure_result:=s_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 create or replace procedure update_song
     (s_id in number, new_name in nvarchar2, new_source in nvarchar2,
         new_author in number, new_genre in number,
-          procedure_result out boolean) is
+          procedure_result out number) is
 begin
     update SONG set NAME=new_name,
                     SOURCE=new_source,
                     AUTHOR=new_author,
                     GENRE=new_genre
         where ID=s_id;
-    procedure_result:=true;
+    procedure_result:=s_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
@@ -118,31 +118,31 @@ begin
 end;
 
 create or replace procedure delete_user
-    (user_id in number, procedure_result out boolean) IS
+    (user_id in number, procedure_result out number) IS
 BEGIN
     delete from PLAYLIST_SONGS where PLAYLIST_ID in
                                      (select ID from PLAYLIST
                                         where OWNER = user_id);
     delete from PLAYLIST where OWNER=user_id;
     delete from VMUSIC_USER where ID=user_id;
-    procedure_result:=true;
+    procedure_result:=user_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 --select * from USER_ROLE;
 create or replace procedure set_admin_role_for_user
-    (user_id in number, procedure_result out boolean) is
+    (user_id in number, procedure_result out number) is
 begin
     update VMUSIC_USER set ROLE = 2 where ID=user_id;
-    procedure_result:=true;
+    procedure_result:=user_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
@@ -154,7 +154,7 @@ begin
 end;
 
 create or replace procedure add_authors
-    (authors_name in nvarchar2, procedure_result out boolean) is
+    (authors_name in nvarchar2, procedure_result out number) is
  is_author number := 0;
  author_id number;
 begin
@@ -166,11 +166,11 @@ begin
     insert into AUTHOR(ID, NAME)
         values (author_id, authors_name);
     end if;
-    procedure_result:=true;
+    procedure_result:=author_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
