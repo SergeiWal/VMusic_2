@@ -173,14 +173,3 @@ begin
     procedure_result:= -1;
     rollback;
 end;
-
--- create or replace procedure delete_author
---     (author_id in number,procedure_result out boolean ) is
--- begin
---      procedure_result:=true;
---     commit ;
---     exception when others
---         then
---     procedure_result:= false;
---     rollback;
--- end;

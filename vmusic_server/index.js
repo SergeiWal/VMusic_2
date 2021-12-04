@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/songs", songRoter);
 app.use("/users", userRouter);
 app.use("/authors", authorRouter);
-app.use("/genre", genreRouter);
+app.use("/genres", genreRouter);
 app.use("/playlists", playlistRouter);
 
 app.listen(port, () => {

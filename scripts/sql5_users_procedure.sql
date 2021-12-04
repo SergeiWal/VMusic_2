@@ -143,3 +143,26 @@ begin
     open result_set for
         select * from GENRE;
 end;
+
+--создание пользователя
+
+create or replace  procedure create_user
+    (in_name in nvarchar2, in_password in nvarchar2, in_role in number, proc_result out number)
+     is
+    user_count number;
+    user_id number;
+begin
+    proc_result := -1;
+    select count(*) into user_count from VMUSIC_USER u where u.NAME = in_name;
+    if user_count = 0 then
+        select count(*) into user_id from VMUSIC_USER;
+        insert into VMUSIC_USER (ID, NAME, PASSWORD, ROLE)
+            values (user_id + 1, in_name, in_password, in_role);
+        proc_result:=user_id + 1;
+        commit ;
+    end if;
+    exception when others
+        then
+    proc_result := -1;
+    rollback ;
+end;

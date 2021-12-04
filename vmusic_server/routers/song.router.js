@@ -33,6 +33,120 @@ router.get("/", async (req, res) => {
   res.json(resultArray);
 });
 
+router.get("/name/:name", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
+
+  let song_name;
+
+  if (req.params.name !== undefined) {
+    song_name = req.params.name;
+  } else {
+    throw new Error("Bad request");
+  }
+
+  let procedureResult = await connection.execute(
+    `BEGIN 
+       DB_ADMIN.GET_SONGS_BY_NAME(:name, :ret);
+     END;`,
+    {
+      name: song_name,
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
+    }
+  );
+
+  let resultSet = procedureResult.outBinds.ret;
+  let resultArray = [];
+  let row;
+  while ((row = await resultSet.getRow())) {
+    resultArray.push({
+      id: row[0],
+      name: row[1],
+      author: row[2],
+      genre: row[3],
+      source: row[4],
+    });
+  }
+
+  resultSet.close();
+  res.json(resultArray);
+});
+
+router.get("/author/:author", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
+
+  let song_author;
+
+  if (req.params.author !== undefined) {
+    song_author = parseInt(req.params.author);
+  } else {
+    throw new Error("Bad request");
+  }
+
+  let procedureResult = await connection.execute(
+    `BEGIN 
+      DB_ADMIN.GET_SONGS_BY_AUTHOR(:author, :ret);
+     END;`,
+    {
+      author: song_author,
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
+    }
+  );
+
+  let resultSet = procedureResult.outBinds.ret;
+  let resultArray = [];
+  let row;
+  while ((row = await resultSet.getRow())) {
+    resultArray.push({
+      id: row[0],
+      name: row[1],
+      author: row[2],
+      genre: row[3],
+      source: row[4],
+    });
+  }
+
+  resultSet.close();
+  res.json(resultArray);
+});
+
+router.get("/genre/:genre", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
+
+  let song_genre;
+
+  if (req.params.genre !== undefined) {
+    song_genre = parseInt(req.params.genre);
+  } else {
+    throw new Error("Bad request");
+  }
+
+  let procedureResult = await connection.execute(
+    `BEGIN 
+      DB_ADMIN.GET_SONGS_BY_GENRE(:genre, :ret);
+     END;`,
+    {
+      genre: song_genre,
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
+    }
+  );
+
+  let resultSet = procedureResult.outBinds.ret;
+  let resultArray = [];
+  let row;
+  while ((row = await resultSet.getRow())) {
+    resultArray.push({
+      id: row[0],
+      name: row[1],
+      author: row[2],
+      genre: row[3],
+      source: row[4],
+    });
+  }
+
+  resultSet.close();
+  res.json(resultArray);
+});
+
 router.get("/admin", async (req, res) => {
   const connection = await orcldb.getConnection(dbconf);
 

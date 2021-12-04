@@ -1,16 +1,69 @@
 const express = require("express");
+const orcldb = require("oracledb");
+const dbconf = require("../config/config").dbconfig;
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send(JSON.stringify({ text: "Hello, World!!!" }));
+router.get("/", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
+
+  let procedureResult = await connection.execute(
+    `BEGIN 
+       DB_ADMIN.GET_AUTHORS(:ret);
+     END;`,
+    {
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
+    }
+  );
+
+  let resultSet = procedureResult.outBinds.ret;
+  let resultArray = [];
+  let row;
+  while ((row = await resultSet.getRow())) {
+    resultArray.push({
+      id: row[0],
+      name: row[1],
+    });
+  }
+
+  resultSet.close();
+  res.json(resultArray);
 });
 
-router.post("/", (req, res) => {});
+router.post("/", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
 
-router.delete("/", (req, res) => {});
+  let in_name;
 
-router.put("/", (req, res) => {});
+  if (req.body.name === undefined) {
+    throw new Error("Bad request");
+  } else {
+    in_name = req.body.name;
+  }
 
-router.patch("/", (req, res) => {});
+  let procedureResult = await connection.execute(
+    `BEGIN 
+       DB_ADMIN.ADD_AUTHORS(:name, :ret);
+     END;`,
+    {
+      name: in_name,
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.NUMBER },
+    }
+  );
+
+  let result = procedureResult.outBinds.ret;
+  let responseBody;
+
+  if (result >= 0) {
+    responseBody = {
+      id: result,
+      name: in_name,
+    };
+  } else {
+    responseBody = { status: "Failed" };
+  }
+
+  res.json(responseBody);
+});
 
 module.exports = router;

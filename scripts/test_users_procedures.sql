@@ -69,13 +69,23 @@ begin
 end;
 
 declare
-    result boolean;
+    result number;
 begin
     DB_ADMIN.ADD_SONG('Moon Sonate', 'E:\\GIT\\Fur_Elise_Ludwig_Van_Beethoven.mp3',1,1,result);
 end;
 
 declare
-    result boolean;
+    result number;
 begin
     DB_ADMIN.DELETE_SONG(41, result);
+end;
+
+declare
+    result number;
+begin
+    DB_ADMIN.CREATE_USER('Sveta','123456',1 ,result);
+end;
+
+begin
+
 end;
