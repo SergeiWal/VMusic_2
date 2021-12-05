@@ -4,16 +4,18 @@
 create table genre
 (
   id number,
-  genre nvarchar2(25),
+  genre nvarchar2(25) unique,
   constraint pk_genre_id primary key (id)
 );
+-- drop table genre;
 
 create table author
 (
   id number,
-  name nvarchar2(30),
+  name nvarchar2(30) unique ,
   constraint pk_author_id primary key (id)
 );
+-- drop table AUTHOR;
 
 create table song
 (
@@ -26,25 +28,28 @@ create table song
     constraint fk_song_author foreign key(author) references author(id),
     constraint fk_song_genre foreign key (genre) references genre(id)
 );
+-- drop table song;
 --alter table song rename column song to name;
 
 create table user_role
 (
     id number,
-    role nvarchar2(25),
+    role nvarchar2(25) unique ,
     constraint pk_role_id primary key (id)
 );
+-- drop table  user_role;
 
 create table vmusic_user
 (
   id number ,
-  name nvarchar2(30),
+  name nvarchar2(30) unique ,
   password nvarchar2(60),
   role number not null,
   constraint pk_user_id primary key (id),
   constraint fk_user_role foreign key (role) references user_role(id)
 );
 
+-- drop table  vmusic_user;
 create table playlist
 (
     id number,
@@ -55,6 +60,7 @@ create table playlist
 );
 
 --drop table playlist;
+-- drop table playlist_songs;
 
 create table playlist_songs
 (

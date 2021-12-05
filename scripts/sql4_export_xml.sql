@@ -7,7 +7,7 @@ create or replace procedure export_genres_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
-    xml_data nvarchar2(300);
+    xml_data nvarchar2(1000);
 begin
     xml_string:='<genres>';
     open result_set for
@@ -170,15 +170,15 @@ end;
 
 
 --tests
-declare
-    xml_string nvarchar2(10000);
-begin
-     --export_genres_to_xml(xml_string);
-     --export_authors_to_xml(xml_string);
-     --export_songs_to_xml(xml_string);
-     --export_roles_to_xml(xml_string);
-     --export_users_to_xml(xml_string);
-     --export_playlists_to_xml(xml_string);
-     export_relationships_to_xml(xml_string);
-     DBMS_OUTPUT.PUT_LINE(xml_string);
-end;
+-- declare
+--     xml_string nvarchar2(10000);
+-- begin
+--      --export_genres_to_xml(xml_string);
+--      --export_authors_to_xml(xml_string);
+--      --export_songs_to_xml(xml_string);
+--      --export_roles_to_xml(xml_string);
+--      --export_users_to_xml(xml_string);
+--      --export_playlists_to_xml(xml_string);
+--      export_relationships_to_xml(xml_string);
+--      DBMS_OUTPUT.PUT_LINE(xml_string);
+-- end;

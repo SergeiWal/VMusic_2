@@ -118,16 +118,21 @@ end;
 --tests
 
 -- select * from GENRE;
+--
 -- select * from AUTHOR;
 -- select * from SONG;
+--
 -- select * from USER_ROLE;
 -- select * from VMUSIC_USER;
+--
 -- select * from PLAYLIST;
+--
 -- select * from PLAYLIST_SONGS;
--- --procedures invokes
+
+-- -- --procedures invokes
 -- begin
 --     --import_genres_xml('');
---     --import_authors_xml('');
+--    -- import_authors_xml();
 --     --import_songs_xml('');
 --     --IMPORT_ROLES_XML('');
 --     --import_users_xml('');
