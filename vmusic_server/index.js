@@ -16,6 +16,7 @@ const userRouter = require("./routers/user.router");
 const authorRouter = require("./routers/author.router");
 const genreRouter = require("./routers/genre.router");
 const playlistRouter = require("./routers/playlist.router");
+const dataRouter = require("./routers/data.router");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +26,7 @@ app.use("/users", userRouter);
 app.use("/authors", authorRouter);
 app.use("/genres", genreRouter);
 app.use("/playlists", playlistRouter);
+app.use("/data", dataRouter);
 
 app.listen(port, () => {
   console.log("VMusic-Server is started ...");

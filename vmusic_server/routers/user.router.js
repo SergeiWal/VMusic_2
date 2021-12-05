@@ -31,6 +31,49 @@ router.get("/", async (req, res) => {
   res.json(resultArray);
 });
 
+router.get("/:username/:password", async (req, res) => {
+  const connection = await orcldb.getConnection(dbconf);
+
+  let in_username;
+  let in_password;
+
+  if (req.params.username === undefined || req.params.password === undefined) {
+    throw new Error("Bad request");
+  }
+
+  in_username = req.params.username;
+  in_password = req.params.password;
+
+  let procedureResult = await connection.execute(
+    `BEGIN 
+       DB_ADMIN.SIGN_IN(:username, :password, :ret, :set);
+     END;`,
+    {
+      username: in_username,
+      password: in_password,
+      ret: { dir: orcldb.BIND_OUT, type: orcldb.NUMBER },
+      set: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
+    }
+  );
+
+  const result = procedureResult.outBinds.ret;
+
+  if (result >= 0) {
+    let resultSet = procedureResult.outBinds.set;
+    const row = await resultSet.getRow();
+    const responseBody = {
+      id: row[0],
+      name: row[1],
+      role: row[2],
+    };
+
+    resultSet.close();
+    res.json(responseBody);
+  } else {
+    res.json({ status: "failed" });
+  }
+});
+
 router.post("/", async (req, res) => {
   const connection = await orcldb.getConnection(dbconf);
 

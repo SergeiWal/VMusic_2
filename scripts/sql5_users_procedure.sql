@@ -11,7 +11,7 @@ end;
 
 --создание нового плэйлиста
 create or replace procedure create_playlist_for_user
-    (playlist_name IN nvarchar2, user_id IN number, procedure_result OUT boolean) IS
+    (playlist_name IN nvarchar2, user_id IN number, procedure_result OUT number) IS
     playlist_id number:=0;
     is_playlist number:=0;
 begin
@@ -23,31 +23,47 @@ begin
     insert into PLAYLIST (id, name, owner)
         values (playlist_id, playlist_name, user_id);
     end if;
-    procedure_result:=true;
+    procedure_result:=playlist_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
 --удаление плэйлиста
 create or replace  procedure delete_playlist
-    (in_playlist_id IN number, procedure_result OUT boolean) IS
+    (in_playlist_id IN number, procedure_result OUT number) IS
 begin
     delete from PLAYLIST_SONGS where PLAYLIST_ID=in_playlist_id;
     delete from PLAYLIST where ID=in_playlist_id;
-    procedure_result:=true;
+    procedure_result:=1;
     commit ;
      exception when others
         then
-    procedure_result:= false;
+    procedure_result:= 0;
     rollback ;
+end;
+
+select * from SONG
+    where ID in (select ps.SONG_ID from PLAYLIST_SONGS ps
+        where ps.PLAYLIST_ID = 1);
+
+--получить треки из плэйлиста
+create or replace procedure get_song_from_playlist
+    (in_playlist_id IN number, procedure_result OUT sys_refcursor) is
+begin
+     open procedure_result for
+        select s.ID, s.NAME as song, a2.NAME as author,g.GENRE,s.SOURCE from SONG S
+            inner join GENRE G on S.GENRE = G.ID
+                inner join AUTHOR A2 on A2.ID = S.AUTHOR
+            where s.ID in (select ps.SONG_ID from PLAYLIST_SONGS ps
+        where ps.PLAYLIST_ID = in_playlist_id);
 end;
 
 --добавить трек в плэйлист
 create or replace procedure add_song_in_playlist
-    (in_playlist_id IN number, in_song_id IN number,procedure_result OUT boolean) IS
+    (in_playlist_id IN number, in_song_id IN number,procedure_result OUT number) IS
     row_count number;
 begin
     select count(*) into  row_count from PLAYLIST_SONGS
@@ -56,38 +72,38 @@ begin
     insert into PLAYLIST_SONGS(playlist_id, song_id)
         values (in_playlist_id,in_song_id);
     end if;
-    procedure_result:=true;
+    procedure_result:=1;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= 0;
     rollback;
 end;
 
---удалить трек в плэйлист
+--удалить трек в плэйлисте
 create or replace procedure delete_song_from_playlist
-    (in_playlist_id IN number, in_song_id IN number,procedure_result OUT boolean) IS
+    (in_playlist_id IN number, in_song_id IN number,procedure_result OUT number) IS
 begin
     delete from PLAYLIST_SONGS where SONG_ID=in_song_id AND PLAYLIST_ID=in_playlist_id;
-    procedure_result:=true;
+    procedure_result:=1;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= 0;
     rollback;
 end;
 
 --обновление имени плэйлиста
 create or replace procedure update_playlist_name
-    (playlist_id IN number, new_name nvarchar2, procedure_result out boolean) IS
+    (playlist_id IN number, new_name nvarchar2, procedure_result out number) IS
 begin
     update PLAYLIST set NAME=new_name
         where ID=playlist_id;
-    procedure_result:=true;
+    procedure_result:=playlist_id;
     commit ;
     exception when others
         then
-    procedure_result:= false;
+    procedure_result:= -1;
     rollback;
 end;
 
@@ -164,5 +180,28 @@ begin
     exception when others
         then
     proc_result := -1;
+    rollback ;
+end;
+
+--авторизация
+create or replace procedure sign_in
+    (username in nvarchar2, in_password in nvarchar2, proc_result out number, result_set out sys_refcursor)
+    is
+    user_count number;
+begin
+    select count(*) into user_count from VMUSIC_USER u
+        where  u.NAME = username and PASSWORD=in_password;
+    proc_result:=-1;
+    if user_count=1 then
+        open result_set for
+            select u.ID, u.NAME, ur.ROLE from VMUSIC_USER u
+                inner join USER_ROLE UR on u.ROLE = UR.ID
+                    where  NAME = username and PASSWORD=in_password;
+        proc_result := 1;
+    end if;
+    commit;
+    exception when others
+        then
+    proc_result:=-1;
     rollback ;
 end;
