@@ -25,7 +25,7 @@ router.post("/import/:type", async (req, res) => {
         connection
           .execute(
             `BEGIN 
-            DB_ADMIN.IMPORT_${type.toUpperCase()}_XML(:in);
+            DB_ADMIN.IMPORT_XML.IMPORT_${type.toUpperCase()}_XML(:in);
             commit;
           END;`,
             {
@@ -53,7 +53,7 @@ router.get("/export/:type", async (req, res) => {
 
   const procedureResult = await connection.execute(
     `BEGIN 
-         DB_ADMIN.EXPORT_${type.toUpperCase()}_TO_XML(:ret);
+         DB_ADMIN.EXPORT_XML.EXPORT_${type.toUpperCase()}_TO_XML(:ret);
            commit;
           END;`,
     {

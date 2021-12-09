@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_GENRES(:ret);
+       DB_ADMIN.USERS_SONG_PKG.GET_GENRES(:ret);
      END;`,
     {
       ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },

@@ -1,9 +1,26 @@
 --экспорт данных из таблиц в xml
 --процедуры имеют один выходной параметер - строку содержащую xml
 
+create or replace package export_xml is
+    procedure export_genres_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_authors_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_songs_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_roles_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_users_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_playlists_to_xml
+        (xml_string OUT nvarchar2);
+    procedure export_relationships_to_xml
+        (xml_string OUT nvarchar2);
+end export_xml;
 
+create or replace package body export_xml is
 --genres
-create or replace procedure export_genres_to_xml
+procedure export_genres_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -26,7 +43,7 @@ end;
 
 
 --authors
-create or replace procedure export_authors_to_xml
+procedure export_authors_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -48,7 +65,7 @@ begin
 end;
 
 --songs
-create or replace procedure export_songs_to_xml
+procedure export_songs_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -74,7 +91,7 @@ begin
 end;
 
 --user_roles
-create or replace procedure export_roles_to_xml
+procedure export_roles_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -97,7 +114,7 @@ begin
 end;
 
 --users
-create or replace procedure export_users_to_xml
+procedure export_users_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -122,7 +139,7 @@ begin
 end;
 
 --playlists
-create or replace procedure export_playlists_to_xml
+procedure export_playlists_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -146,7 +163,7 @@ begin
 end;
 
 --relationships
-create or replace procedure export_relationships_to_xml
+procedure export_relationships_to_xml
     (xml_string OUT nvarchar2)
     is
     result_set  sys_refcursor;
@@ -167,6 +184,9 @@ begin
     end loop;
      xml_string:= xml_string || '</relationships>';
 end;
+end export_xml;
+
+
 
 
 --tests

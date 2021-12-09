@@ -1,8 +1,29 @@
 --импорт данных из xml
 --каждая процедура принимает строку - xml-документ
 
---genres
-create or replace procedure import_genres_xml
+create or replace package import_xml is
+
+procedure import_genres_xml
+    (xml_string IN nvarchar2);
+procedure import_authors_xml
+    (xml_string IN nvarchar2);
+procedure import_songs_xml
+    (xml_string IN nvarchar2);
+procedure import_roles_xml
+    (xml_string IN nvarchar2);
+procedure import_users_xml
+    (xml_string IN nvarchar2);
+procedure import_playlists_xml
+    (xml_string IN nvarchar2);
+procedure import_relationships_xml
+    (xml_string IN nvarchar2);
+
+end import_xml;
+
+
+create or replace package body  import_xml is
+    --genres
+procedure import_genres_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -17,7 +38,7 @@ begin
 end;
 
 --authors
-create or replace procedure import_authors_xml
+procedure import_authors_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -33,7 +54,7 @@ end;
 
 
 --songs
-create or replace procedure import_songs_xml
+procedure import_songs_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -52,7 +73,7 @@ end;
 
 
 --user_roles
-create or replace procedure import_roles_xml
+procedure import_roles_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -67,7 +88,7 @@ begin
 end;
 
 --users
-create or replace procedure import_users_xml
+procedure import_users_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -84,7 +105,7 @@ begin
 end;
 
 --playlists
-create or replace procedure import_playlists_xml
+procedure import_playlists_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -100,7 +121,7 @@ begin
 end;
 
 --playlist song relationships
-create or replace procedure import_relationships_xml
+procedure import_relationships_xml
     (xml_string IN nvarchar2) is
     xml XMLTYPE := XMLTYPE(xml_string);
 begin
@@ -113,6 +134,9 @@ begin
             values (r.playlistId, r.songId);
        end loop;
 end;
+end import_xml;
+
+
 
 
 --tests

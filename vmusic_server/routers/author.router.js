@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_AUTHORS(:ret);
+       DB_ADMIN.ADMIN_AUTHORS_PKG.GET_AUTHORS(:ret);
      END;`,
     {
       ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.ADD_AUTHORS(:name, :ret);
+       DB_ADMIN.ADMIN_AUTHORS_PKG.ADD_AUTHORS(:name, :ret);
      END;`,
     {
       name: in_name,

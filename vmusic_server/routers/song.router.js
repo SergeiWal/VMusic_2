@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_SONGS(:ret);
+       DB_ADMIN.USERS_SONG_PKG.GET_SONGS(:ret);
      END;`,
     {
       ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
@@ -46,7 +46,7 @@ router.get("/name/:name", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_SONGS_BY_NAME(:name, :ret);
+       DB_ADMIN.USERS_SONG_PKG.GET_SONGS_BY_NAME(:name, :ret);
      END;`,
     {
       name: song_name,
@@ -84,7 +84,7 @@ router.get("/author/:author", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-      DB_ADMIN.GET_SONGS_BY_AUTHOR(:author, :ret);
+      DB_ADMIN.USERS_SONG_PKG.GET_SONGS_BY_AUTHOR(:author, :ret);
      END;`,
     {
       author: song_author,
@@ -122,7 +122,7 @@ router.get("/genre/:genre", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-      DB_ADMIN.GET_SONGS_BY_GENRE(:genre, :ret);
+      DB_ADMIN.USERS_SONG_PKG.GET_SONGS_BY_GENRE(:genre, :ret);
      END;`,
     {
       genre: song_genre,
@@ -152,7 +152,7 @@ router.get("/admin", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_SONGS_ADMIN(:ret);
+       DB_ADMIN.ADMIN_SONG_PKG.GET_SONGS_ADMIN(:ret);
      END;`,
     {
       ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
@@ -200,7 +200,7 @@ router.post("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.ADD_SONG(:name, :source, :author, :genre, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.ADD_SONG(:name, :source, :author, :genre, :ret);
      END;`,
     {
       name: in_name,
@@ -243,7 +243,7 @@ router.delete("/:id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-      DB_ADMIN.DELETE_SONG(:in, :ret);
+      DB_ADMIN.ADMIN_SONG_PKG.DELETE_SONG(:in, :ret);
      END;`,
     {
       in: in_id,
@@ -288,7 +288,7 @@ router.put("/:id", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.UPDATE_SONG(:id, :name, :source, :author, :genre, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.UPDATE_SONG(:id, :name, :source, :author, :genre, :ret);
      END;`,
     {
       id: in_id,
@@ -333,7 +333,7 @@ router.patch("/:id/name", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.UPDATE_SONG_NAME(:id, :name, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.UPDATE_SONG_NAME(:id, :name, :ret);
      END;`,
     {
       id: in_id,
@@ -372,7 +372,7 @@ router.patch("/:id/source", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.UPDATE_SONG_SOURCE(:id, :source, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.UPDATE_SONG_SOURCE(:id, :source, :ret);
      END;`,
     {
       id: in_id,
@@ -411,7 +411,7 @@ router.patch("/:song_id/genre/:genre_id", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.UPDATE_SONG_GENRE(:id, :genre, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.UPDATE_SONG_GENRE(:id, :genre, :ret);
      END;`,
     {
       id: in_id,
@@ -450,7 +450,7 @@ router.patch("/:song_id/author/:author_id", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.UPDATE_SONG_AUTHOR(:id, :author, :ret);
+       DB_ADMIN.ADMIN_SONG_PKG.UPDATE_SONG_AUTHOR(:id, :author, :ret);
      END;`,
     {
       id: in_id,

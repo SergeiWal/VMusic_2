@@ -16,7 +16,7 @@ router.get("/:user_id", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_PLAYLISTS_FOR_USER(:id, :ret);
+       DB_ADMIN.USERS_PLAYLIST_PKG.GET_PLAYLISTS_FOR_USER(:id, :ret);
      END;`,
     {
       id: userId,
@@ -54,7 +54,7 @@ router.get("/:playlist_id/song", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_SONG_FROM_PLAYLIST(:id, :ret);
+       DB_ADMIN.USERS_PLAYLIST_PKG.GET_SONG_FROM_PLAYLIST(:id, :ret);
      END;`,
     {
       id: playlistId,
@@ -94,7 +94,7 @@ router.post("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.CREATE_PLAYLIST_FOR_USER(:name, :user, :ret);
+       DB_ADMIN.USERS_PLAYLIST_PKG.CREATE_PLAYLIST_FOR_USER(:name, :user, :ret);
      END;`,
     {
       name: in_name,
@@ -138,7 +138,7 @@ router.post("/:playlist_id/song/:song_id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-     DB_ADMIN.ADD_SONG_IN_PLAYLIST(:playlist_id, :song_id, :ret);
+     DB_ADMIN.USERS_PLAYLIST_PKG.ADD_SONG_IN_PLAYLIST(:playlist_id, :song_id, :ret);
      END;`,
     {
       playlist_id: in_playlist_id,
@@ -176,7 +176,7 @@ router.delete("/:playlist_id/song/:song_id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-    DB_ADMIN.DELETE_SONG_FROM_PLAYLIST(:playlist_id, :song_id, :ret);
+    DB_ADMIN.USERS_PLAYLIST_PKG.DELETE_SONG_FROM_PLAYLIST(:playlist_id, :song_id, :ret);
     END;`,
     {
       playlist_id: in_playlist_id,
@@ -209,7 +209,7 @@ router.delete("/:id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-      DB_ADMIN.DELETE_PLAYLIST(:id, :ret);
+      DB_ADMIN.USERS_PLAYLIST_PKG.DELETE_PLAYLIST(:id, :ret);
      END;`,
     {
       id: in_id,
@@ -243,7 +243,7 @@ router.patch("/:id/:name", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-      DB_ADMIN.UPDATE_PLAYLIST_NAME(:id, :name, :ret);
+      DB_ADMIN.USERS_PLAYLIST_PKG.UPDATE_PLAYLIST_NAME(:id, :name, :ret);
      END;`,
     {
       id: in_id,

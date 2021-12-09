@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.GET_USERS(:ret);
+       DB_ADMIN.ADMIN_USERS_PKG.GET_USERS(:ret);
      END;`,
     {
       ret: { dir: orcldb.BIND_OUT, type: orcldb.CURSOR },
@@ -46,7 +46,7 @@ router.get("/:username/:password", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.SIGN_IN(:username, :password, :ret, :set);
+       DB_ADMIN.SECURITY_PKG.SIGN_IN(:username, :password, :ret, :set);
      END;`,
     {
       username: in_username,
@@ -95,7 +95,7 @@ router.post("/", async (req, res) => {
 
   let procedureResult = await connection.execute(
     `BEGIN 
-       DB_ADMIN.CREATE_USER(:name, :password, :role, :ret);
+       DB_ADMIN.SECURITY_PKG.CREATE_USER(:name, :password, :role, :ret);
      END;`,
     {
       name: in_name,
@@ -136,7 +136,7 @@ router.delete("/:id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-      DB_ADMIN.DELETE_USER(:in, :ret);
+      DB_ADMIN.ADMIN_USERS_PKG.DELETE_USER(:in, :ret);
      END;`,
     {
       in: in_id,
@@ -168,7 +168,7 @@ router.patch("/:id", async (req, res) => {
   let procedureResult = await connection.execute(
     `
     BEGIN 
-      DB_ADMIN.SET_ADMIN_ROLE_FOR_USER(:in, :ret);
+      DB_ADMIN.ADMIN_USERS_PKG.SET_ADMIN_ROLE_FOR_USER(:in, :ret);
      END;`,
     {
       in: in_id,
