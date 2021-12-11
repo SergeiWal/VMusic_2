@@ -43,7 +43,7 @@ create table vmusic_user
 (
   id number ,
   name nvarchar2(30) unique ,
-  password nvarchar2(60),
+  password nvarchar2(65),
   role number not null,
   constraint pk_user_id primary key (id),
   constraint fk_user_role foreign key (role) references user_role(id)

@@ -1,5 +1,8 @@
 --tests
 
+delete from AUTHOR;
+commit;
+
 --get_playlists_for_user test
 select * from PLAYLIST;
 declare

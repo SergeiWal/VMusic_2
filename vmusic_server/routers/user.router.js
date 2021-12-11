@@ -1,5 +1,6 @@
 const express = require("express");
 const orcldb = require("oracledb");
+const crypto = require("crypto");
 const dbconf = require("../config/config").dbconfig;
 
 const router = express.Router();
@@ -42,7 +43,10 @@ router.get("/:username/:password", async (req, res) => {
   }
 
   in_username = req.params.username;
-  in_password = req.params.password;
+  in_password = crypto
+    .createHash(process.env.APP_CRYPTO)
+    .update(req.params.password)
+    .digest("hex");
 
   let procedureResult = await connection.execute(
     `BEGIN 
@@ -89,7 +93,10 @@ router.post("/", async (req, res) => {
     throw new Error("Bad request");
   } else {
     in_name = req.body.name;
-    in_password = req.body.password;
+    in_password = crypto
+      .createHash(process.env.APP_CRYPTO)
+      .update(req.body.password)
+      .digest("hex");
     in_role = Number(req.body.role);
   }
 
@@ -112,7 +119,6 @@ router.post("/", async (req, res) => {
     responseBody = {
       id: result,
       name: in_name,
-      password: in_password,
       role: in_role,
     };
   } else {

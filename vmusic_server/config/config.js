@@ -1,5 +1,5 @@
 exports.dbconfig = {
-  user: "app_user",
-  password: "u$vMusic123",
-  connectString: "windows-trb1rud/orcl",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONN_STR,
 };
