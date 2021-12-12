@@ -38,9 +38,7 @@ procedure get_songs
     ( result_set OUT sys_refcursor) IS
 begin
     open result_set for
-        select s.ID, s.NAME as song, a2.NAME as author,g.GENRE,s.SOURCE from SONG S
-            inner join GENRE G on S.GENRE = G.ID
-                inner join AUTHOR A2 on A2.ID = S.AUTHOR;
+        select * from GET_SONG_FOR_USER;
 end;
 
 --получение песен по жанру
