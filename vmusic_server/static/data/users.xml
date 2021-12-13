@@ -3,19 +3,19 @@
     <user>
         <id>1</id>
         <name>Sergei</name>
-        <password>wefw353412fds</password>
+        <password>552ec0aa8fb8c171f4acb77f73240d25dad78ddc81693334c1a0b9ad7f095e02</password>
         <role>2</role>
     </user>
     <user>
         <id>2</id>
         <name>Alexander</name>
-        <password>wedsf353412ds</password>
+        <password>552ec0aa8fb8c171f4acb77f73240d25dad78ddc81693334c1a0b9ad7f095e02</password>
         <role>1</role>
     </user>
     <user>
         <id>3</id>
         <name>Max</name>
-        <password>wefw353499wws</password>
+        <password>552ec0aa8fb8c171f4acb77f73240d25dad78ddc81693334c1a0b9ad7f095e02</password>
         <role>1</role>
     </user>
 </users>
