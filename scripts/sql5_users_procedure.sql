@@ -128,7 +128,7 @@ begin
     select count(*) into is_playlist from PLAYLIST
         where NAME=playlist_name AND OWNER=user_id;
     if is_playlist = 0 then
-    select count(*) into playlist_id from PLAYLIST;
+    select max(ID) into playlist_id from PLAYLIST;
     playlist_id:=playlist_id + 1;
     insert into PLAYLIST (id, name, owner)
         values (playlist_id, playlist_name, user_id);
@@ -240,7 +240,7 @@ begin
     proc_result := -1;
     select count(*) into user_count from VMUSIC_USER u where u.NAME = in_name;
     if user_count = 0 then
-        select count(*) into user_id from VMUSIC_USER;
+        select max(ID) into user_id from VMUSIC_USER;
         insert into VMUSIC_USER (ID, NAME, PASSWORD, ROLE)
             values (user_id + 1, in_name, in_password, in_role);
         proc_result:=user_id + 1;

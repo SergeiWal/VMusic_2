@@ -49,7 +49,7 @@ begin
       select count(*) into is_song from SONG
         where NAME=in_name AND AUTHOR=in_author;
     if is_song = 0 then
-    select count(*) into song_id from SONG;
+    select max(ID) into song_id from SONG;
     song_id:=song_id + 1;
     insert into SONG (ID, NAME, SOURCE, AUTHOR, GENRE)
         values (song_id, in_name, in_source, in_author, in_genre);
@@ -227,7 +227,7 @@ begin
       select count(*) into is_author from AUTHOR
         where NAME=authors_name;
     if is_author = 0 then
-    select count(*) into author_id from AUTHOR;
+    select max(ID) into author_id from AUTHOR;
     author_id:=author_id + 1;
     insert into AUTHOR(ID, NAME)
         values (author_id, authors_name);
